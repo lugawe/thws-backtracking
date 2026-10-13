@@ -36,5 +36,6 @@
      - Maximum Drawdown
      - Rendite (Kumulated, Anulated)
      - Benchmark Vergleich (MSCI World, S&P 500)
-
-
+- ML Handelsstrategie
+  - Sentiment-Analyse (FinBERT / NLP): Ein vortrainiertes Sprachmodell analysiert Finanz-Headlines oder News
+  - Trend-Vorhersage (XGBoost / Random Forest / LSTM): Ihr trainiert ein Modell auf historischen technischen Indikatoren (RSI, MACD, Volatilität), um den Trend (Steigt/Fällt) für den Folgetag vorherzusagen.

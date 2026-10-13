@@ -2,25 +2,24 @@
 
 ## Use Cases:
 
-- Verrechnungskonto (Simulation)
+- Verrechnungskonto (Simulation) (Olia)
   - Kauf, Verkauf, Gebühren, Abheben, Dazubuchen
-- Depot
+- Depot (Luis)
   - Aktueller Marktwert der gekauften Wertpapiere, Chart, Rendite, Kaufpreise, Orderbuch
   
-- Orderabwicklung
+- Orderabwicklung (Chris)
   - Market Order
   - Optional: Stop-Loss Order, Limit Order, Hebel, rechtzeitig automatisches Ausstoppen
   - Handelskosten Simulation
     - Spread, Ordergebühren für Börsen…, Konfigurierter
-- Börsenanbindung
+- Börsenanbindung (Luis)
   - Historische Aktienkurse
   - Live Aktienkurse
-- Automatisierte Trading Algorithmen implementieren
+- Automatisierte Trading Algorithmen implementieren (Olia, Chris)
   - Modular, erweiterbar, Konfigurierbar
 
 
-
-- Backtracking Simulation
+- Backtracking Simulation (Chris)
   - Algorithmen miteinander vergleichen
   - Simulierter Kontostand Anfang und Ende
   - Algorithmus in Kurszeitraum bei Aktie Y testen

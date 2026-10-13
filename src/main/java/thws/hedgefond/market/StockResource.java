@@ -44,7 +44,7 @@ public class StockResource {
             @QueryParam("interval") @DefaultValue("1day") Interval interval,
             @QueryParam("start") LocalDate start,
             @QueryParam("end") LocalDate end,
-            @QueryParam("limit") @DefaultValue("30") int limit) {
+            @QueryParam("limit") @DefaultValue("30") long limit) {
 
         return provider.getHistory(symbol, interval, start, end, limit);
     }

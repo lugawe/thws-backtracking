@@ -38,5 +38,6 @@ public interface MarketDataProvider {
 
     Multi<Quote> streamQuotes(String symbol);
 
-    SequencedCollection<Candle> getHistory(String symbol, Interval interval, LocalDate start, LocalDate end, int limit);
+    SequencedCollection<Candle> getHistory(
+            String symbol, Interval interval, LocalDate start, LocalDate end, long limit);
 }

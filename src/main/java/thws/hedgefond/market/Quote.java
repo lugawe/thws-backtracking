@@ -1,7 +1,7 @@
 package thws.hedgefond.market;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.math.RoundingMode;
 
 /**
  * Snapshot of the current state of a stock: "what is the price right now and how did it move today?".
@@ -35,4 +35,28 @@ public record Quote(
         BigDecimal percentChange,
         long volume,
         boolean marketOpen,
-        Instant timestamp) {}
+        long timestamp) {
+
+    public Quote updatePrice(BigDecimal price, long timestamp) {
+
+        BigDecimal change = price.subtract(previousClose);
+        BigDecimal percentChange =
+                change.multiply(BigDecimal.valueOf(100)).divide(previousClose, 6, RoundingMode.HALF_UP);
+
+        return new Quote(
+                symbol,
+                name,
+                exchange,
+                currency,
+                price,
+                open,
+                high.max(price),
+                low.min(price),
+                previousClose,
+                change,
+                percentChange,
+                volume,
+                marketOpen,
+                timestamp);
+    }
+}

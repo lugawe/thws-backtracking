@@ -17,6 +17,7 @@
         <java.version>25</java.version>
         <!-- dependencies -->
         <quarkus.version>3.40.1</quarkus.version>
+        <twelvedata-java.version>1.0.11</twelvedata-java.version>
         <!-- code style -->
         <spotless-maven-plugin.version>3.10.3</spotless-maven-plugin.version>
         <!-- maven plugins -->
@@ -49,6 +50,12 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest-jackson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.twelvedata</groupId>
+            <artifactId>twelvedata-java</artifactId>
+            <version>${twelvedata-java.version}</version>
         </dependency>
 
         <!-- test dependencies -->

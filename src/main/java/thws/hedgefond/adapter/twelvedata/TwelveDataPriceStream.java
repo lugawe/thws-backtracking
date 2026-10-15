@@ -1,4 +1,4 @@
-package thws.hedgefond.market.twelvedata;
+package thws.hedgefond.adapter.twelvedata;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

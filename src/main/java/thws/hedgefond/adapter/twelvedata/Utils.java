@@ -1,4 +1,4 @@
-package thws.hedgefond.market.twelvedata;
+package thws.hedgefond.adapter.twelvedata;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -7,6 +7,7 @@ import java.time.ZoneOffset;
 
 import com.twelvedata.client.ApiException;
 import com.twelvedata.client.errors.TwelvedataApiException;
+import thws.hedgefond.core.marketdata.MarketDataException;
 
 public final class Utils {
 
@@ -20,7 +21,7 @@ public final class Utils {
         try {
             return call.call();
         } catch (TwelvedataApiException | ApiException e) {
-            throw new RuntimeException(e);
+            throw new MarketDataException("Twelve Data API request failed", e);
         }
     }
 

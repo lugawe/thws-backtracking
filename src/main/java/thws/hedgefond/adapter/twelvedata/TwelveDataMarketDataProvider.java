@@ -1,4 +1,4 @@
-package thws.hedgefond.market.twelvedata;
+package thws.hedgefond.adapter.twelvedata;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -31,10 +31,11 @@ import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import thws.hedgefond.market.Candle;
-import thws.hedgefond.market.MarketDataProvider;
-import thws.hedgefond.market.Quote;
-import thws.hedgefond.util.CurrencyConverter;
+import thws.hedgefond.core.marketdata.Candle;
+import thws.hedgefond.core.marketdata.Interval;
+import thws.hedgefond.core.marketdata.MarketDataProvider;
+import thws.hedgefond.core.marketdata.Quote;
+import thws.hedgefond.core.money.CurrencyConverter;
 
 @ApplicationScoped
 public class TwelveDataMarketDataProvider implements MarketDataProvider {
@@ -94,7 +95,7 @@ public class TwelveDataMarketDataProvider implements MarketDataProvider {
 
         GetTimeSeries200Response r = Utils.call(() -> api.getTimeSeries(APIGetTimeSeriesRequest.newBuilder()
                 .symbol(symbol)
-                .interval(IntervalEnum.fromValue(interval.getInterval()))
+                .interval(toIntervalEnum(interval))
                 .startDate(Objects.toString(start, null))
                 .endDate(end != null ? end.plusDays(1).toString() : null) // end_date is exclusive
                 .outputsize(limit)
@@ -147,5 +148,15 @@ public class TwelveDataMarketDataProvider implements MarketDataProvider {
 
     private static Quote applyTick(Quote quote, PriceEvent tick) {
         return quote.updatePrice(BigDecimal.valueOf(tick.getPrice()), tick.getTimestamp());
+    }
+
+    private static IntervalEnum toIntervalEnum(Interval interval) {
+        return switch (interval) {
+            case MINUTES_1 -> IntervalEnum._1MIN;
+            case MINUTES_5 -> IntervalEnum._5MIN;
+            case HOURS_1 -> IntervalEnum._1H;
+            case DAY_1 -> IntervalEnum._1DAY;
+            case WEEK_1 -> IntervalEnum._1WEEK;
+        };
     }
 }

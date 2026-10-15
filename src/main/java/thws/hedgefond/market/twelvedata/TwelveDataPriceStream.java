@@ -25,6 +25,7 @@ public class TwelveDataPriceStream {
     }
 
     public void disconnect() {
+        log.info("Twelve Data WebSocket: Disconnect");
         client.disconnect();
     }
 
@@ -35,7 +36,7 @@ public class TwelveDataPriceStream {
     private Multi<PriceEvent> open(String symbol) {
         return Uni.createFrom()
                 .completionStage(client::connect)
-                .invoke(() -> client.subscribe(symbol))
+                .invoke(() -> subscribe(symbol))
                 .onItem()
                 .transformToMulti(_ -> ticks.filter(tick -> symbol.equals(tick.getSymbol())))
                 .onTermination()
@@ -43,6 +44,11 @@ public class TwelveDataPriceStream {
                 .broadcast()
                 .withCancellationAfterLastSubscriberDeparture()
                 .toAllSubscribers();
+    }
+
+    private void subscribe(String symbol) {
+        log.info("Twelve Data WebSocket: Subscribe {}", symbol);
+        client.subscribe(symbol);
     }
 
     private void close(String symbol) {

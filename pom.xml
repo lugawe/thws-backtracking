@@ -19,7 +19,7 @@
         <quarkus.version>3.40.1</quarkus.version>
         <twelvedata-java.version>1.0.11</twelvedata-java.version>
         <!-- code style -->
-        <spotless-maven-plugin.version>3.10.3</spotless-maven-plugin.version>
+        <spotless-maven-plugin.version>3.10.4</spotless-maven-plugin.version>
         <!-- maven plugins -->
         <project.build.sourceEncoding>${project.encoding}</project.build.sourceEncoding>
         <maven.compiler.release>${java.version}</maven.compiler.release>

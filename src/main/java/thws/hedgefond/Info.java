@@ -5,7 +5,6 @@ import java.util.Currency;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
-import io.quarkus.runtime.Startup;
 import io.smallrye.mutiny.Multi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,7 @@ public class Info {
         this.marketDataProvider = marketDataProvider;
     }
 
-    @Startup
+    // @Startup
     public void test() {
         Multi.createFrom()
                 .publisher(marketDataProvider.streamQuotes("AAPL", Currency.getInstance("EUR")))

@@ -1,4 +1,4 @@
-package thws.hedgefond.market;
+package thws.hedgefond.core.marketdata;
 
 import java.math.BigDecimal;
 import java.util.function.Function;

@@ -1,4 +1,4 @@
-package thws.hedgefond.util;
+package thws.hedgefond.core.money;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

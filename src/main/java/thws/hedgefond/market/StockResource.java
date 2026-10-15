@@ -1,6 +1,7 @@
 package thws.hedgefond.market;
 
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.SequencedCollection;
 
 import jakarta.inject.Inject;
@@ -8,7 +9,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import io.smallrye.mutiny.Multi;
-import thws.hedgefond.market.MarketDataProvider.Currency;
 import thws.hedgefond.market.MarketDataProvider.Interval;
 
 @Path("/stocks")

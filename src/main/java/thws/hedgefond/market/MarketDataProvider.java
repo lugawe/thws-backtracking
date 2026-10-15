@@ -2,16 +2,12 @@ package thws.hedgefond.market;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Currency;
 import java.util.SequencedCollection;
 
 import io.smallrye.mutiny.Multi;
 
 public interface MarketDataProvider {
-
-    enum Currency {
-        USD,
-        EUR
-    }
 
     enum Interval {
         MINUTES_1("1min"),

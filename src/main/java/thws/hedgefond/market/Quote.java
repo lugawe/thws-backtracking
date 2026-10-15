@@ -2,6 +2,7 @@ package thws.hedgefond.market;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Currency;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -27,7 +28,7 @@ public record Quote(
         String symbol,
         String name,
         String exchange,
-        String currency,
+        Currency currency,
         BigDecimal price,
         BigDecimal open,
         BigDecimal high,
@@ -62,7 +63,7 @@ public record Quote(
                 timestamp);
     }
 
-    public Quote updateCurrency(String newCurrency, Function<BigDecimal, BigDecimal> converter) {
+    public Quote updateCurrency(Currency newCurrency, Function<BigDecimal, BigDecimal> converter) {
         return new Quote(
                 symbol,
                 name,

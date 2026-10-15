@@ -1,11 +1,17 @@
 package thws.hedgefond.market;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.SequencedCollection;
 
 import io.smallrye.mutiny.Multi;
 
 public interface MarketDataProvider {
+
+    enum Currency {
+        USD,
+        EUR
+    }
 
     enum Interval {
         MINUTES_1("1min"),
@@ -34,10 +40,12 @@ public interface MarketDataProvider {
         }
     }
 
-    Quote getQuote(String symbol);
+    BigDecimal getExchangeRate(Currency from, Currency to);
 
-    Multi<Quote> streamQuotes(String symbol);
+    Quote getQuote(String symbol, Currency currency);
+
+    Multi<Quote> streamQuotes(String symbol, Currency currency);
 
     SequencedCollection<Candle> getHistory(
-            String symbol, Interval interval, LocalDate start, LocalDate end, long limit);
+            String symbol, Interval interval, LocalDate start, LocalDate end, long limit, Currency currency);
 }

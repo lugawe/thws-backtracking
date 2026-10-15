@@ -28,8 +28,6 @@ import com.twelvedata.client.ws.TwelvedataWebSocketClient;
 import com.twelvedata.client.ws.TwelvedataWebSocketOptions;
 import io.quarkus.cache.CacheResult;
 import io.smallrye.mutiny.Multi;
-import io.smallrye.mutiny.Uni;
-import io.smallrye.mutiny.infrastructure.Infrastructure;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import thws.hedgefond.core.marketdata.Candle;
 import thws.hedgefond.core.marketdata.Interval;
@@ -75,18 +73,13 @@ public class TwelveDataMarketDataProvider implements MarketDataProvider {
 
     @Override
     public Multi<Quote> streamQuotes(String symbol, Currency currency) {
-        return Uni.createFrom()
-                .item(() -> fetchQuote(symbol))
-                .runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
+        Quote quote = fetchQuote(symbol);
+        Function<BigDecimal, BigDecimal> c = converter(quote.currency(), currency);
+        return priceStream
+                .prices(symbol)
                 .onItem()
-                .transformToMulti(quote -> {
-                    Function<BigDecimal, BigDecimal> c = converter(quote.currency(), currency);
-                    return priceStream
-                            .prices(symbol)
-                            .onItem()
-                            .scan(() -> quote, TwelveDataMarketDataProvider::applyTick)
-                            .map(q -> q.updateCurrency(currency, c));
-                });
+                .scan(() -> quote, TwelveDataMarketDataProvider::applyTick)
+                .map(q -> q.updateCurrency(currency, c));
     }
 
     @Override
@@ -147,7 +140,8 @@ public class TwelveDataMarketDataProvider implements MarketDataProvider {
     }
 
     private static Quote applyTick(Quote quote, PriceEvent tick) {
-        return quote.updatePrice(BigDecimal.valueOf(tick.getPrice()), tick.getTimestamp());
+        long volume = Objects.requireNonNullElse(tick.getDayVolume(), quote.volume());
+        return quote.updatePrice(BigDecimal.valueOf(tick.getPrice()), volume, tick.getTimestamp());
     }
 
     private static IntervalEnum toIntervalEnum(Interval interval) {

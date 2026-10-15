@@ -8,12 +8,15 @@ import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
+import io.smallrye.common.annotation.Blocking;
+import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Multi;
 import thws.hedgefond.core.marketdata.Candle;
 import thws.hedgefond.core.marketdata.Interval;
 import thws.hedgefond.core.marketdata.MarketDataProvider;
 import thws.hedgefond.core.marketdata.Quote;
 
+@RunOnVirtualThread
 @Path("/stocks")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,6 +37,7 @@ public class StockResource {
         return provider.getQuote(symbol, currency);
     }
 
+    @Blocking
     @GET
     @Path("/{symbol}/quote/stream")
     @Produces(MediaType.SERVER_SENT_EVENTS)

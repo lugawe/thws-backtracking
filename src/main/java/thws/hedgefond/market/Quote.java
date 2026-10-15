@@ -2,6 +2,8 @@ package thws.hedgefond.market;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Snapshot of the current state of a stock: "what is the price right now and how did it move today?".
@@ -54,6 +56,24 @@ public record Quote(
                 low.min(price),
                 previousClose,
                 change,
+                percentChange,
+                volume,
+                marketOpen,
+                timestamp);
+    }
+
+    public Quote updateCurrency(String newCurrency, Function<BigDecimal, BigDecimal> converter) {
+        return new Quote(
+                symbol,
+                name,
+                exchange,
+                Objects.requireNonNull(newCurrency),
+                converter.apply(price),
+                converter.apply(open),
+                converter.apply(high),
+                converter.apply(low),
+                converter.apply(previousClose),
+                converter.apply(change),
                 percentChange,
                 volume,
                 marketOpen,

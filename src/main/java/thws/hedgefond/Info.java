@@ -6,9 +6,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import io.quarkus.runtime.Startup;
+import io.smallrye.mutiny.Multi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import thws.hedgefond.market.MarketDataProvider;
+import thws.hedgefond.core.marketdata.MarketDataProvider;
 
 // TODO just for testing
 @ApplicationScoped
@@ -25,8 +26,8 @@ public class Info {
 
     @Startup
     public void test() {
-        marketDataProvider
-                .streamQuotes("AAPL", Currency.getInstance("EUR"))
+        Multi.createFrom()
+                .publisher(marketDataProvider.streamQuotes("AAPL", Currency.getInstance("EUR")))
                 .subscribe()
                 .with(q -> {
                     log.info("{} price: {} {}", q.name(), q.price(), q.currency());

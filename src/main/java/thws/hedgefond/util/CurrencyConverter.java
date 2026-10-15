@@ -2,6 +2,7 @@ package thws.hedgefond.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Objects;
 import java.util.function.Function;
 
 public class CurrencyConverter implements Function<BigDecimal, BigDecimal> {
@@ -11,7 +12,7 @@ public class CurrencyConverter implements Function<BigDecimal, BigDecimal> {
     private final BigDecimal rate;
 
     public CurrencyConverter(BigDecimal rate) {
-        this.rate = rate;
+        this.rate = Objects.requireNonNull(rate);
     }
 
     @Override

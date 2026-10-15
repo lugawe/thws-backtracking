@@ -71,7 +71,7 @@ public class TwelveDataPriceStream {
         @Override
         public void onSubscribeStatus(SubscribeStatusEvent event) {
             for (SubscribeStatusItem fail : event.getFails()) {
-                log.warn("Twelve Data WebSocket: Subscription failed for {}", fail.getSymbol());
+                log.error("Twelve Data WebSocket: Subscription failed for {}", fail.getSymbol());
             }
         }
 
@@ -82,7 +82,7 @@ public class TwelveDataPriceStream {
 
         @Override
         public void onError(TwelvedataWebSocketException e) {
-            log.warn("Twelve Data WebSocket: Error", e);
+            log.error("Twelve Data WebSocket: Error", e);
         }
     }
 }

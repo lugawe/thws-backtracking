@@ -1,4 +1,4 @@
-package thws.hedgefond.market;
+package thws.hedgefond.api.marketdata;
 
 import java.time.LocalDate;
 import java.util.Currency;
@@ -9,7 +9,10 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 
 import io.smallrye.mutiny.Multi;
-import thws.hedgefond.market.MarketDataProvider.Interval;
+import thws.hedgefond.core.marketdata.Candle;
+import thws.hedgefond.core.marketdata.Interval;
+import thws.hedgefond.core.marketdata.MarketDataProvider;
+import thws.hedgefond.core.marketdata.Quote;
 
 @Path("/stocks")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -37,7 +40,7 @@ public class StockResource {
     public Multi<Quote> streamQuotes(
             @PathParam("symbol") String symbol, @QueryParam("currency") @DefaultValue("EUR") Currency currency) {
 
-        return provider.streamQuotes(symbol, currency);
+        return Multi.createFrom().publisher(provider.streamQuotes(symbol, currency));
     }
 
     @GET

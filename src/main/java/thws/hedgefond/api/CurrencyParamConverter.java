@@ -1,4 +1,4 @@
-package thws.hedgefond.market;
+package thws.hedgefond.api;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;

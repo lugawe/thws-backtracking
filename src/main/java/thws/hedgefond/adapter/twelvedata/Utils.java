@@ -8,6 +8,7 @@ import java.time.ZoneOffset;
 import com.twelvedata.client.ApiException;
 import com.twelvedata.client.errors.TwelvedataApiException;
 import thws.hedgefond.core.marketdata.MarketDataException;
+import thws.hedgefond.core.marketdata.UnknownSymbolException;
 
 public final class Utils {
 
@@ -20,6 +21,8 @@ public final class Utils {
     public static <T> T call(ApiCall<T> call) {
         try {
             return call.call();
+        } catch (TwelvedataApiException.NotFoundException e) {
+            throw new UnknownSymbolException(e.getMessage(), e);
         } catch (TwelvedataApiException | ApiException e) {
             throw new MarketDataException("Twelve Data API request failed", e);
         }

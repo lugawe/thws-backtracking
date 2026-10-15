@@ -40,7 +40,7 @@ public class TwelveDataPriceStream {
                 .onItem()
                 .transformToMulti(_ -> ticks.filter(tick -> symbol.equals(tick.getSymbol())))
                 .onTermination()
-                .invoke(() -> close(symbol))
+                .invoke(() -> unsubscribe(symbol))
                 .broadcast()
                 .withCancellationAfterLastSubscriberDeparture()
                 .toAllSubscribers();
@@ -51,7 +51,8 @@ public class TwelveDataPriceStream {
         client.subscribe(symbol);
     }
 
-    private void close(String symbol) {
+    private void unsubscribe(String symbol) {
+        log.info("Twelve Data WebSocket: Unsubscribe {}", symbol);
         streams.remove(symbol);
         if (client.isConnected()) {
             client.unsubscribe(symbol);

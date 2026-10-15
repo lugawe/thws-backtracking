@@ -26,6 +26,7 @@ import com.twelvedata.client.model.TimeSeriesItem;
 import com.twelvedata.client.ws.PriceEvent;
 import com.twelvedata.client.ws.TwelvedataWebSocketClient;
 import com.twelvedata.client.ws.TwelvedataWebSocketOptions;
+import io.quarkus.cache.CacheResult;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import io.smallrye.mutiny.infrastructure.Infrastructure;
@@ -57,6 +58,7 @@ public class TwelveDataMarketDataProvider implements MarketDataProvider {
     }
 
     @Override
+    @CacheResult(cacheName = "exchange-rates")
     public BigDecimal getExchangeRate(Currency from, Currency to) {
         GetExchangeRate200Response r = Utils.call(() -> currencies.getExchangeRate(
                 APIGetExchangeRateRequest.newBuilder().symbol(from + "/" + to).build()));

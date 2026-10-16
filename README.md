@@ -9,7 +9,7 @@
   
 - Orderabwicklung (Chris)
   - Market Order
-  - Optional: Stop-Loss Order, Limit Order, Hebel, rechtzeitig automatisches Ausstoppen
+  - Optional: Stop-Loss Order, Limit Order, Auf Fallende Kurse setzen (Short), Hebel, rechtzeitig automatisches Ausstoppen
   - Handelskosten Simulation
     - Spread, Ordergebühren für Börsen…, Konfigurierter
 - Börsenanbindung (Luis)

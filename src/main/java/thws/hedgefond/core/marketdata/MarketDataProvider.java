@@ -3,14 +3,13 @@ package thws.hedgefond.core.marketdata;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Currency;
-import java.util.SequencedCollection;
 import java.util.concurrent.Flow;
 
 public interface MarketDataProvider {
 
     BigDecimal getExchangeRate(Currency from, Currency to);
 
-    SequencedCollection<Candle> getHistory(
+    CandleSeries getHistory(
             String symbol, Interval interval, LocalDate start, LocalDate end, long limit, Currency currency);
 
     Quote getQuote(String symbol, Currency currency);

@@ -10,10 +10,10 @@ public interface MarketDataProvider {
 
     BigDecimal getExchangeRate(Currency from, Currency to);
 
+    SequencedCollection<Candle> getHistory(
+            String symbol, Interval interval, LocalDate start, LocalDate end, long limit, Currency currency);
+
     Quote getQuote(String symbol, Currency currency);
 
     Flow.Publisher<Quote> streamQuotes(String symbol, Currency currency);
-
-    SequencedCollection<Candle> getHistory(
-            String symbol, Interval interval, LocalDate start, LocalDate end, long limit, Currency currency);
 }

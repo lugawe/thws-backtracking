@@ -27,28 +27,6 @@ public class StockTools {
     }
 
     @Tool(
-            name = "get_stock_quote",
-            description = "Returns the current quote of a stock.",
-            annotations =
-                    @Tool.Annotations(
-                            readOnlyHint = true,
-                            destructiveHint = false,
-                            idempotentHint = true,
-                            openWorldHint = true))
-    public Quote getStockQuote(
-            @ToolArg(description = "Ticker symbol of the stock (e.g. AAPL)") String symbol,
-            @ToolArg(description = "Currency code of the prices (ISO 4217, e.g. EUR)", defaultValue = "EUR")
-                    String currency) {
-
-        Currency c = toCurrency(currency);
-        try {
-            return provider.getQuote(symbol, c);
-        } catch (MarketDataException e) {
-            throw new ToolCallException(e.getMessage(), e);
-        }
-    }
-
-    @Tool(
             name = "get_stock_candles",
             description = "Returns the historical OHLC candles of a stock.",
             annotations =
@@ -69,6 +47,28 @@ public class StockTools {
         Currency c = toCurrency(currency);
         try {
             return provider.getHistory(symbol, interval, start, end, limit, c);
+        } catch (MarketDataException e) {
+            throw new ToolCallException(e.getMessage(), e);
+        }
+    }
+
+    @Tool(
+            name = "get_stock_quote",
+            description = "Returns the current quote of a stock.",
+            annotations =
+                    @Tool.Annotations(
+                            readOnlyHint = true,
+                            destructiveHint = false,
+                            idempotentHint = true,
+                            openWorldHint = true))
+    public Quote getStockQuote(
+            @ToolArg(description = "Ticker symbol of the stock (e.g. AAPL)") String symbol,
+            @ToolArg(description = "Currency code of the prices (ISO 4217, e.g. EUR)", defaultValue = "EUR")
+                    String currency) {
+
+        Currency c = toCurrency(currency);
+        try {
+            return provider.getQuote(symbol, c);
         } catch (MarketDataException e) {
             throw new ToolCallException(e.getMessage(), e);
         }

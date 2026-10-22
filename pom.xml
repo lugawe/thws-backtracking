@@ -16,7 +16,7 @@
         <project.encoding>UTF-8</project.encoding>
         <java.version>25</java.version>
         <!-- dependencies -->
-        <quarkus.version>3.40.1</quarkus.version>
+        <quarkus.version>3.40.1.1</quarkus.version>
         <quarkus-mcp-server.version>2.0.3</quarkus-mcp-server.version>
         <twelvedata-java.version>1.0.11</twelvedata-java.version>
         <!-- code style -->

@@ -16,6 +16,29 @@ import java.util.function.Function;
  */
 public record CandleSeries(String symbol, Interval interval, Currency currency, SequencedCollection<Candle> candles) {
 
+    /**
+     * Combines all candles into one candle spanning the whole series.
+     *
+     * @return the combined candle, or {@code null} if the series is empty
+     */
+    public Candle getAggregate() {
+
+        if (candles.isEmpty()) {
+            return null;
+        }
+
+        Candle oldest = candles.getLast();
+        Candle newest = candles.getFirst();
+
+        return new Candle(
+                oldest.timestamp(),
+                oldest.open(),
+                candles.stream().map(Candle::high).reduce(BigDecimal::max).orElseThrow(),
+                candles.stream().map(Candle::low).reduce(BigDecimal::min).orElseThrow(),
+                newest.close(),
+                candles.stream().mapToLong(Candle::volume).sum());
+    }
+
     public CandleSeries updateCurrency(Currency newCurrency, Function<BigDecimal, BigDecimal> converter) {
         return new CandleSeries(
                 symbol,

@@ -1,4 +1,4 @@
-package thws.hedgefond.api.marketdata;
+package thws.hedgefond.api.rest.marketdata;
 
 import java.time.LocalDate;
 import java.util.Currency;

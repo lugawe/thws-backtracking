@@ -1,4 +1,4 @@
-package thws.hedgefond.api.strategy;
+package thws.hedgefond.api.rest.strategy;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

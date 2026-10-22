@@ -16,6 +16,14 @@ import java.util.function.Function;
  */
 public record Candle(long timestamp, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close, long volume) {
 
+    public Direction getDirection() {
+        return switch (Integer.signum(close.compareTo(open))) {
+            case 1 -> Direction.UP;
+            case -1 -> Direction.DOWN;
+            default -> Direction.FLAT;
+        };
+    }
+
     public Candle convert(Function<BigDecimal, BigDecimal> converter) {
         return new Candle(
                 timestamp,

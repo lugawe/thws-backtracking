@@ -113,6 +113,7 @@ public class TwelveDataMarketDataProvider implements MarketDataProvider {
 
     private static Quote toQuote(GetQuote200Response r) {
         return new Quote(
+                Objects.requireNonNullElse(r.getLastQuoteAt(), r.getTimestamp()),
                 r.getSymbol(),
                 r.getName(),
                 r.getExchange(),
@@ -125,8 +126,7 @@ public class TwelveDataMarketDataProvider implements MarketDataProvider {
                 Utils.decimal(r.getChange()),
                 Utils.decimal(r.getPercentChange()),
                 Utils.number(r.getVolume()),
-                r.getIsMarketOpen(),
-                Objects.requireNonNullElse(r.getLastQuoteAt(), r.getTimestamp()));
+                r.getIsMarketOpen());
     }
 
     private static Candle toCandle(TimeSeriesItem v) {

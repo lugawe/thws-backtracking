@@ -41,12 +41,13 @@ public class StrategyResource {
         try {
             var strategy = parser.parse(request.strategy());
             List<Candle> candles = new ArrayList<>(provider.getHistory(
-                    request.symbol(),
-                    request.interval(),
-                    request.start(),
-                    request.end(),
-                    request.limit(),
-                    request.currency()));
+                            request.symbol(),
+                            request.interval(),
+                            request.start(),
+                            request.end(),
+                            request.limit(),
+                            request.currency())
+                    .candles());
             candles = candles.reversed();
             return new EvaluationResponse(strategy.name(), request.symbol(), engine.evaluate(strategy, candles));
         } catch (StrategyException | IllegalArgumentException e) {

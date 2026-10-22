@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Currency;
 import java.util.Objects;
-import java.util.SequencedCollection;
 import java.util.function.Function;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -12,9 +11,8 @@ import jakarta.inject.Inject;
 
 import com.twelvedata.client.ws.PriceEvent;
 import io.smallrye.mutiny.Multi;
-import thws.hedgefond.adapter.twelvedata.TwelveDataClient.TimeSeries;
-import thws.hedgefond.adapter.twelvedata.TwelveDataClient.TimeSeriesRequest;
-import thws.hedgefond.core.marketdata.Candle;
+import thws.hedgefond.adapter.twelvedata.TwelveDataClient.CandleSeriesRequest;
+import thws.hedgefond.core.marketdata.CandleSeries;
 import thws.hedgefond.core.marketdata.Interval;
 import thws.hedgefond.core.marketdata.MarketDataProvider;
 import thws.hedgefond.core.marketdata.Quote;
@@ -36,17 +34,17 @@ public class TwelveDataMarketDataProvider implements MarketDataProvider {
     }
 
     @Override
-    public SequencedCollection<Candle> getHistory(
+    public CandleSeries getHistory(
             String symbol, Interval interval, LocalDate start, LocalDate end, long limit, Currency currency) {
 
         symbol = Utils.normalizeSymbol(symbol);
 
-        TimeSeriesRequest request = new TimeSeriesRequest(symbol, interval, start, end, limit);
-        TimeSeries series =
-                interval.isIntraday() ? client.getIntradayTimeSeries(request) : client.getTimeSeries(request);
+        CandleSeriesRequest request = new CandleSeriesRequest(symbol, interval, start, end, limit);
+        CandleSeries series =
+                interval.isIntraday() ? client.getIntradayCandleSeries(request) : client.getCandleSeries(request);
 
         Function<BigDecimal, BigDecimal> c = converter(series.currency(), currency);
-        return series.candles().stream().map(candle -> candle.convert(c)).toList();
+        return series.updateCurrency(currency, c);
     }
 
     @Override

@@ -26,6 +26,7 @@ import io.quarkus.cache.CacheResult;
 import io.smallrye.mutiny.Multi;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import thws.hedgefond.core.marketdata.Candle;
+import thws.hedgefond.core.marketdata.CandleSeries;
 import thws.hedgefond.core.marketdata.Interval;
 import thws.hedgefond.core.marketdata.Quote;
 
@@ -58,13 +59,13 @@ public class TwelveDataClient {
     }
 
     @CacheResult(cacheName = "candles")
-    public TimeSeries getTimeSeries(TimeSeriesRequest request) {
-        return fetchTimeSeries(request);
+    public CandleSeries getCandleSeries(CandleSeriesRequest request) {
+        return fetchCandleSeries(request);
     }
 
     @CacheResult(cacheName = "candles-intraday")
-    public TimeSeries getIntradayTimeSeries(TimeSeriesRequest request) {
-        return fetchTimeSeries(request);
+    public CandleSeries getIntradayCandleSeries(CandleSeriesRequest request) {
+        return fetchCandleSeries(request);
     }
 
     @CacheResult(cacheName = "quotes")
@@ -78,7 +79,7 @@ public class TwelveDataClient {
         return priceStream.prices(symbol);
     }
 
-    private TimeSeries fetchTimeSeries(TimeSeriesRequest request) {
+    private CandleSeries fetchCandleSeries(CandleSeriesRequest request) {
         GetTimeSeries200Response r = Utils.call(() -> api.getTimeSeries(APIGetTimeSeriesRequest.newBuilder()
                 .symbol(request.symbol())
                 .interval(Utils.toIntervalEnum(request.interval()))
@@ -92,7 +93,7 @@ public class TwelveDataClient {
                 r.getValues().stream().map(TwelveDataClient::toCandle).toList();
         Currency currency = Currency.getInstance(r.getMeta().getCurrency());
 
-        return new TimeSeries(candles, currency);
+        return new CandleSeries(request.symbol(), request.interval(), currency, candles);
     }
 
     private static Candle toCandle(TimeSeriesItem v) {
@@ -123,7 +124,5 @@ public class TwelveDataClient {
                 r.getIsMarketOpen());
     }
 
-    public record TimeSeriesRequest(String symbol, Interval interval, LocalDate start, LocalDate end, long limit) {}
-
-    public record TimeSeries(SequencedCollection<Candle> candles, Currency currency) {}
+    public record CandleSeriesRequest(String symbol, Interval interval, LocalDate start, LocalDate end, long limit) {}
 }

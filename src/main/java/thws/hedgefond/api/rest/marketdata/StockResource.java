@@ -2,7 +2,6 @@ package thws.hedgefond.api.rest.marketdata;
 
 import java.time.LocalDate;
 import java.util.Currency;
-import java.util.SequencedCollection;
 
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
@@ -11,7 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 import io.smallrye.common.annotation.Blocking;
 import io.smallrye.common.annotation.RunOnVirtualThread;
 import io.smallrye.mutiny.Multi;
-import thws.hedgefond.core.marketdata.Candle;
+import thws.hedgefond.core.marketdata.CandleSeries;
 import thws.hedgefond.core.marketdata.Interval;
 import thws.hedgefond.core.marketdata.MarketDataProvider;
 import thws.hedgefond.core.marketdata.Quote;
@@ -31,7 +30,7 @@ public class StockResource {
 
     @GET
     @Path("/{symbol}/candles")
-    public SequencedCollection<Candle> getHistory(
+    public CandleSeries getHistory(
             @PathParam("symbol") String symbol,
             @QueryParam("interval") @DefaultValue("1day") Interval interval,
             @QueryParam("start") LocalDate start,

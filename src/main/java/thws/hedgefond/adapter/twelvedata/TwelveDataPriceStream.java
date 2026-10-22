@@ -30,7 +30,8 @@ public class TwelveDataPriceStream {
     }
 
     public Multi<PriceEvent> prices(String symbol) {
-        return streams.computeIfAbsent(symbol.toUpperCase(), this::open);
+        symbol = Utils.normalizeSymbol(symbol);
+        return streams.computeIfAbsent(symbol, this::open);
     }
 
     private Multi<PriceEvent> open(String symbol) {

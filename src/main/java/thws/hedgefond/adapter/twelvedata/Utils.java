@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Locale;
 
 import com.twelvedata.client.ApiException;
 import com.twelvedata.client.errors.TwelvedataApiException;
@@ -46,7 +47,7 @@ public final class Utils {
     }
 
     public static String normalizeSymbol(String symbol) {
-        return symbol.trim().toUpperCase();
+        return symbol.trim().toUpperCase(Locale.ROOT);
     }
 
     public static IntervalEnum toIntervalEnum(Interval interval) {

@@ -2,9 +2,7 @@ package thws.hedgefond.adapter.twelvedata;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Currency;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
@@ -127,5 +125,5 @@ public class TwelveDataClient {
 
     public record TimeSeriesRequest(String symbol, Interval interval, LocalDate start, LocalDate end, long limit) {}
 
-    public record TimeSeries(List<Candle> candles, Currency currency) {}
+    public record TimeSeries(SequencedCollection<Candle> candles, Currency currency) {}
 }

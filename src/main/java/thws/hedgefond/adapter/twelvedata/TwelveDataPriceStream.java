@@ -39,7 +39,7 @@ public class TwelveDataPriceStream {
                 .completionStage(client::connect)
                 .invoke(() -> subscribe(symbol))
                 .onItem()
-                .transformToMulti(_ -> ticks.filter(tick -> symbol.equals(tick.getSymbol())))
+                .transformToMulti(i -> ticks.filter(tick -> symbol.equals(tick.getSymbol())))
                 .onTermination()
                 .invoke(() -> unsubscribe(symbol))
                 .broadcast()

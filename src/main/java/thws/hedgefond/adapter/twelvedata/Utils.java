@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Locale;
 
 import com.twelvedata.client.ApiException;
 import com.twelvedata.client.errors.TwelvedataApiException;
+import com.twelvedata.client.model.IntervalEnum;
+import thws.hedgefond.core.marketdata.Interval;
 import thws.hedgefond.core.marketdata.MarketDataException;
 import thws.hedgefond.core.marketdata.UnknownSymbolException;
 
@@ -41,5 +44,19 @@ public final class Utils {
                 ? LocalDate.parse(value).atStartOfDay()
                 : LocalDateTime.parse(value.replace(' ', 'T'));
         return dateTime.toEpochSecond(ZoneOffset.UTC);
+    }
+
+    public static String normalizeSymbol(String symbol) {
+        return symbol.trim().toUpperCase(Locale.ROOT);
+    }
+
+    public static IntervalEnum toIntervalEnum(Interval interval) {
+        return switch (interval) {
+            case MINUTES_1 -> IntervalEnum._1MIN;
+            case MINUTES_5 -> IntervalEnum._5MIN;
+            case HOURS_1 -> IntervalEnum._1H;
+            case DAY_1 -> IntervalEnum._1DAY;
+            case WEEK_1 -> IntervalEnum._1WEEK;
+        };
     }
 }

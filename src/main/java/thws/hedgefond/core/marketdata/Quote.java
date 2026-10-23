@@ -9,6 +9,7 @@ import java.util.function.Function;
 /**
  * Snapshot of the current state of a stock: "what is the price right now and how did it move today?".
  *
+ * @param timestamp time of the last price update
  * @param symbol ticker symbol, e.g. {@code AAPL}
  * @param name company name
  * @param exchange exchange the quote comes from, e.g. {@code NASDAQ}
@@ -22,9 +23,9 @@ import java.util.function.Function;
  * @param percentChange change in percent compared to {@code previousClose}, e.g. {@code 0.5} for +0.5%
  * @param volume number of shares traded on the current trading day
  * @param marketOpen whether the exchange is currently open
- * @param timestamp time of the last price update
  */
 public record Quote(
+        long timestamp,
         String symbol,
         String name,
         String exchange,
@@ -37,8 +38,7 @@ public record Quote(
         BigDecimal change,
         BigDecimal percentChange,
         long volume,
-        boolean marketOpen,
-        long timestamp) {
+        boolean marketOpen) {
 
     public Quote updatePrice(BigDecimal price, long volume, long timestamp) {
 
@@ -47,6 +47,7 @@ public record Quote(
                 change.multiply(BigDecimal.valueOf(100)).divide(previousClose, 6, RoundingMode.HALF_UP);
 
         return new Quote(
+                timestamp,
                 symbol,
                 name,
                 exchange,
@@ -59,12 +60,12 @@ public record Quote(
                 change,
                 percentChange,
                 volume,
-                marketOpen,
-                timestamp);
+                marketOpen);
     }
 
     public Quote updateCurrency(Currency newCurrency, Function<BigDecimal, BigDecimal> converter) {
         return new Quote(
+                timestamp,
                 symbol,
                 name,
                 exchange,
@@ -77,7 +78,6 @@ public record Quote(
                 converter.apply(change),
                 percentChange,
                 volume,
-                marketOpen,
-                timestamp);
+                marketOpen);
     }
 }

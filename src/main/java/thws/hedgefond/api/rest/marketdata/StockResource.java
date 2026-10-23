@@ -1,4 +1,4 @@
-package thws.hedgefond.api.marketdata;
+package thws.hedgefond.api.rest.marketdata;
 
 import java.time.LocalDate;
 import java.util.Currency;
@@ -30,6 +30,19 @@ public class StockResource {
     }
 
     @GET
+    @Path("/{symbol}/candles")
+    public SequencedCollection<Candle> getHistory(
+            @PathParam("symbol") String symbol,
+            @QueryParam("interval") @DefaultValue("1day") Interval interval,
+            @QueryParam("start") LocalDate start,
+            @QueryParam("end") LocalDate end,
+            @QueryParam("limit") @DefaultValue("30") long limit,
+            @QueryParam("currency") @DefaultValue("EUR") Currency currency) {
+
+        return provider.getHistory(symbol, interval, start, end, limit, currency);
+    }
+
+    @GET
     @Path("/{symbol}/quote")
     public Quote getQuote(
             @PathParam("symbol") String symbol, @QueryParam("currency") @DefaultValue("EUR") Currency currency) {
@@ -45,18 +58,5 @@ public class StockResource {
             @PathParam("symbol") String symbol, @QueryParam("currency") @DefaultValue("EUR") Currency currency) {
 
         return Multi.createFrom().publisher(provider.streamQuotes(symbol, currency));
-    }
-
-    @GET
-    @Path("/{symbol}/candles")
-    public SequencedCollection<Candle> getHistory(
-            @PathParam("symbol") String symbol,
-            @QueryParam("interval") @DefaultValue("1day") Interval interval,
-            @QueryParam("start") LocalDate start,
-            @QueryParam("end") LocalDate end,
-            @QueryParam("limit") @DefaultValue("30") long limit,
-            @QueryParam("currency") @DefaultValue("EUR") Currency currency) {
-
-        return provider.getHistory(symbol, interval, start, end, limit, currency);
     }
 }

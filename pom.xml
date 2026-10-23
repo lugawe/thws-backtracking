@@ -17,6 +17,7 @@
         <java.version>25</java.version>
         <!-- dependencies -->
         <quarkus.version>3.40.1</quarkus.version>
+        <quarkus-mcp-server.version>2.0.3</quarkus-mcp-server.version>
         <twelvedata-java.version>1.0.11</twelvedata-java.version>
         <!-- code style -->
         <spotless-maven-plugin.version>3.10.4</spotless-maven-plugin.version>
@@ -55,6 +56,12 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-cache</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.quarkiverse.mcp</groupId>
+            <artifactId>quarkus-mcp-server-http</artifactId>
+            <version>${quarkus-mcp-server.version}</version>
         </dependency>
 
         <dependency>

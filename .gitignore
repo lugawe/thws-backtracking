@@ -13,3 +13,6 @@ target/
 
 # Local secrets
 .env
+
+# H2 database files
+.h2/

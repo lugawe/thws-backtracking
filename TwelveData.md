@@ -1,4 +1,4 @@
-# Twelve Data API – Was bekommen wir kostenlos, was kostet Geld?
+# Twelve Data API
 
 Für unser Projekt (Börsenanbindung, historische und Live-Kurse, Backtesting) ist [Twelve Data](https://twelvedata.com) die Datenquelle.
 

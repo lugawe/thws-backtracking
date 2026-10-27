@@ -35,6 +35,9 @@
      - Maximum Drawdown
      - Rendite (Kumulated, Anulated)
      - Benchmark Vergleich (MSCI World, S&P 500)
+- Automatisch die beste Strategie finden
+    - Es wird eine Simulation mit vielen verschiedenen Parametern und Strategien gestartet
+    - -> Die Simulation such die beste Strategie, für einen bestimmten Zeitraum
 - ML Handelsstrategie
   - Sentiment-Analyse (FinBERT / NLP): Ein vortrainiertes Sprachmodell analysiert Finanz-Headlines oder News
   - Trend-Vorhersage (XGBoost / Random Forest / LSTM): Ihr trainiert ein Modell auf historischen technischen Indikatoren (RSI, MACD, Volatilität), um den Trend (Steigt/Fällt) für den Folgetag vorherzusagen.
